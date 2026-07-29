@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Từ Vựng - Phong cách Duolingo</title>
+    <title>Học Từ Vựng - Duolingo, Flashcard & Hình Ảnh</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -104,6 +104,58 @@
         .btn-secondary:active {
             transform: translateY(2px);
             border-bottom-width: 2px;
+        }
+
+        .btn-finish {
+            background-color: #ff9600;
+            color: white;
+            border: none;
+            border-bottom: 4px solid #e58700;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.1s ease;
+        }
+
+        /* SETTINGS BOX */
+        .quiz-settings-box {
+            background: #f7f7f7;
+            border: 2px solid #e5e5e5;
+            border-radius: 18px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .setting-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-group label {
+            font-weight: 800;
+            color: #4b4b4b;
+            font-size: 15px;
+        }
+
+        .setting-group select {
+            padding: 8px 14px;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #1cb0f6;
+            background: white;
+            outline: none;
+            cursor: pointer;
         }
 
         /* HOME PAGE STYLES */
@@ -254,10 +306,6 @@
             text-transform: uppercase;
         }
 
-        .btn-clear-history:hover {
-            text-decoration: underline;
-        }
-
         .history-list {
             display: flex;
             flex-direction: column;
@@ -327,11 +375,6 @@
             font-size: 13px;
             font-weight: 800;
             cursor: pointer;
-        }
-
-        .btn-view-details:active {
-            transform: translateY(2px);
-            border-bottom-width: 1px;
         }
 
         .history-details-box {
@@ -569,7 +612,141 @@
             color: #ea2b2b !important;
         }
 
-        /* RESULT PAGE & REVIEW */
+        /* IMAGE QUIZ STYLES */
+        .image-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .img-option-card {
+            background: #ffffff;
+            border: 3px solid #e5e5e5;
+            border-bottom: 6px solid #e5e5e5;
+            border-radius: 20px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .img-option-card:hover {
+            border-color: #84d8ff;
+            transform: translateY(-2px);
+            background-color: #f8fcff;
+        }
+
+        .img-option-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .img-error-fallback {
+            width: 100%;
+            height: 180px;
+            border-radius: 14px;
+            background-color: #fff0f0;
+            border: 2px dashed #ff4b4b;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ea2b2b;
+            font-weight: 800;
+            font-size: 14px;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .img-option-card.correct {
+            border-color: #58cc02 !important;
+            border-bottom-color: #46a302 !important;
+            background-color: #f0fff0 !important;
+        }
+
+        .img-option-card.wrong {
+            border-color: #ff4b4b !important;
+            border-bottom-color: #ea2b2b !important;
+            background-color: #fff0f0 !important;
+        }
+
+        /* FLASHCARD STYLES */
+        .flashcard-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 500px;
+            height: 320px;
+            margin: 0 auto 30px auto;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard-wrapper.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            border: 3px solid #e5e5e5;
+            border-bottom: 6px solid #e5e5e5;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .flashcard-front {
+            background: #ffffff;
+        }
+
+        .flashcard-back {
+            background: #ddf4ff;
+            border-color: #84d8ff;
+            border-bottom-color: #1cb0f6;
+            transform: rotateY(180deg);
+        }
+
+        .card-hint-text {
+            font-size: 13px;
+            font-weight: 800;
+            color: #afafaf;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: absolute;
+            bottom: 15px;
+        }
+
+        .fc-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* RESULT PAGE */
         .score-circle {
             width: 140px;
             height: 140px;
@@ -666,7 +843,6 @@
             margin-right: 8px;
         }
 
-        /* RESPONSIVE MEDIA QUERIES CHO MỌI THIẾT BỊ */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -701,8 +877,15 @@
                 max-height: 140px;
             }
 
-            .options-grid {
-                grid-template-columns: 1fr;
+            .options-grid, .image-options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .img-option-card img, .img-error-fallback {
+                height: 100%;
+                width: 100%;
+                aspect-ratio: 1/1;
+                object-fit: cover;
             }
 
             .word-display {
@@ -721,13 +904,8 @@
                 margin: 5px 0;
             }
 
-            .review-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .review-answers {
-                text-align: left;
+            .flashcard-wrapper {
+                height: 280px;
             }
         }
     </style>
@@ -738,7 +916,29 @@
         <!-- 1. TRANG CHỦ -->
         <div id="home-page" class="page active">
             <h1>HỌC TỪ VỰNG</h1>
-            <p>Chọn một chủ đề để bắt đầu luyện tập hôm nay!</p>
+            <p>Chọn phương pháp và chủ đề để bắt đầu luyện tập!</p>
+
+            <div class="quiz-settings-box">
+                <div class="setting-group">
+                    <label for="study-mode-select">🎯 Chế độ học:</label>
+                    <select id="study-mode-select">
+                        <option value="quiz" selected>📝 Trắc nghiệm Text (Quiz)</option>
+                        <option value="image_quiz">🖼️ Trắc nghiệm Hình ảnh (2 ảnh)</option>
+                        <option value="flashcard">🎴 Thẻ ghi nhớ (Flashcard)</option>
+                    </select>
+                </div>
+
+                <div class="setting-group">
+                    <label for="question-limit-select">⚙️ Số lượng từ:</label>
+                    <select id="question-limit-select">
+                        <option value="5">5 câu</option>
+                        <option value="10" selected>10 câu</option>
+                        <option value="15">15 câu</option>
+                        <option value="20">20 câu</option>
+                        <option value="all">Tất cả từ</option>
+                    </select>
+                </div>
+            </div>
 
             <div class="load-file-box">
                 <span>📂 Nạp file JSON bài học:</span>
@@ -764,31 +964,30 @@
                         <input type="text" id="new-en" placeholder="Từ Tiếng Anh (VD: Apple)">
                         <input type="text" id="new-phonetic" placeholder="Phiên âm IPA (VD: /ˈæp.əl/)">
                         <input type="text" id="new-vi" placeholder="Nghĩa Tiếng Việt (VD: Quả táo)">
+                        <input type="text" id="new-img" placeholder="Link ảnh chuẩn (URL hình ảnh)">
                     </div>
                     <button class="btn-duo" style="width: 100%;" onclick="addNewWord()">Thêm & Cập Nhật</button>
                 </div>
             </div>
             
-            <!-- SỔ TỪ VỰNG LÀM SAI -->
             <div class="wrong-words-section" id="wrong-words-section">
                 <div class="wrong-words-header">
-                    <h3>⚠️ Sổ Từ VỰNG Làm Sai (<span id="wrong-count">0</span> từ)</h3>
+                    <h3>⚠️ Sổ Từ VỰNG Làm Sai / Cần Ôn (<span id="wrong-count">0</span> từ)</h3>
                     <button class="btn-duo" style="background:#ff4b4b; border-bottom-color:#ea2b2b; padding:8px 16px; font-size:14px; width:auto;" onclick="startQuiz('wrong_words')">Ôn Tập Từ Sai Now</button>
                 </div>
                 <div class="wrong-words-list" id="wrong-words-list"></div>
             </div>
 
-            <!-- KHU VỰC LỊCH SỬ BÀI LÀM -->
             <div class="history-section">
                 <div class="history-header">
-                    <h3>📊 Lịch Sử Bài Làm (Có xem lại chi tiết)</h3>
+                    <h3>📊 Lịch Sử Bài Làm</h3>
                     <button class="btn-clear-history" onclick="clearHistory()">Xóa lịch sử</button>
                 </div>
                 <div class="history-list" id="history-list"></div>
             </div>
         </div>
 
-        <!-- 2. TRANG KIỂM TRA -->
+        <!-- 2. TRANG KIỂM TRA TRẮC NGHIỆM -->
         <div id="quiz-page" class="page">
             <div class="quiz-header">
                 <button class="btn-secondary" onclick="showPage('home-page')">✕</button>
@@ -810,27 +1009,59 @@
                     </div>
 
                     <div class="options-grid" id="options-container"></div>
+                    <div class="image-options-grid" id="image-options-container" style="display: none;"></div>
 
                     <div style="display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
                         <button class="btn-secondary" onclick="prevQuestion()">← Câu trước</button>
-                        <button class="btn-secondary" onclick="nextQuestion()">Câu sau →</button>
+                        <button id="next-btn" class="btn-secondary" onclick="nextQuestion()">Câu sau →</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 3. TRANG KẾT QUẢ PHIÊN LÀM BÀI VỪA XONG -->
+        <!-- 3. TRANG FLASHCARD -->
+        <div id="flashcard-page" class="page">
+            <div class="quiz-header">
+                <button class="btn-secondary" onclick="showPage('home-page')">✕</button>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="fc-progress-bar"></div>
+                </div>
+            </div>
+
+            <p style="font-size: 16px; margin-bottom: 15px; color: #888;">Nhấp vào thẻ để xem mặt sau</p>
+
+            <div class="flashcard-wrapper" id="flashcard-element" onclick="flipCard()">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <div class="word-display" id="fc-front-word">Apple</div>
+                        <div class="phonetic-display" id="fc-front-phonetic">/ˈæp.əl/</div>
+                        <div class="card-hint-text">💡 Bấm để xem nghĩa</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="word-display" style="color: #1cb0f6;" id="fc-back-meaning">Quả táo</div>
+                        <div class="card-hint-text" style="color: #1cb0f6;">💡 Bấm để lật lại</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fc-controls">
+                <button class="btn-duo" style="background:#ff4b4b; border-bottom-color:#ea2b2b;" onclick="markFlashcard(false)">✗ Chưa thuộc</button>
+                <button class="btn-secondary" onclick="flipCard()">🔄 Lật thẻ</button>
+                <button class="btn-duo" onclick="markFlashcard(true)">✓ Đã thuộc</button>
+            </div>
+        </div>
+
+        <!-- 4. TRANG KẾT QUẢ -->
         <div id="result-page" class="page">
             <h1>HOÀN THÀNH BÀI HỌC!</h1>
             <p>Bạn đã hoàn thành bài kiểm tra này</p>
             
             <div class="score-circle" id="final-score">0/0</div>
-            
             <p id="feedback-text" style="color: #4b4b4b; font-size: 22px; font-weight: 800;"></p>
             
             <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
                 <button class="btn-duo" onclick="startQuiz(currentCategory)" style="width: 100%; max-width: 300px;">Thử lại</button>
-                <button class="btn-duo" style="background: #ff9600; border-bottom-color: #e58700; width: 100%; max-width: 300px;" onclick="toggleReviewSection()">👁️ Xem lại bài vừa làm</button>
+                <button id="btn-review-toggle" class="btn-duo" style="background: #ff9600; border-bottom-color: #e58700; width: 100%; max-width: 300px;" onclick="toggleReviewSection()">👁️ Xem lại bài vừa làm</button>
                 <button class="btn-duo" style="background: #1cb0f6; border-bottom-color: #1899d6; width: 100%; max-width: 300px;" onclick="showPage('home-page')">Trang Chủ</button>
             </div>
 
@@ -845,6 +1076,70 @@
     </div>
 
     <script>
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playCorrectSound() {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(659.25, now);
+            gain1.gain.setValueAtTime(0.3, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.15);
+
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(880, now + 0.12);
+            gain2.gain.setValueAtTime(0.3, now + 0.12);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(now + 0.12);
+            osc2.stop(now + 0.4);
+        }
+
+        function playWrongSound() {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'triangle';
+            osc1.frequency.setValueAtTime(174.61, now);
+            gain1.gain.setValueAtTime(0.35, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.18);
+
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(130.81, now + 0.14);
+            gain2.gain.setValueAtTime(0.35, now + 0.14);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(now + 0.14);
+            osc2.stop(now + 0.45);
+        }
+
         const defaultCategories = [
             { id: 'fruits', name: 'Hoa Quả', icon: '🍎' },
             { id: 'objects', name: 'Đồ Vật', icon: '💻' },
@@ -853,22 +1148,17 @@
 
         const defaultVocabulary = {
             fruits: [
-                { word: "Apple", phonetic: "/ˈæp.əl/", meaning: "Quả táo" },
-                { word: "Banana", phonetic: "/bəˈnɑː.nə/", meaning: "Quả chuối" },
-                { word: "Orange", phonetic: "/ˈɒr.ɪndʒ/", meaning: "Quả cam" },
-                { word: "Mango", phonetic: "/ˈmæŋ.ɡəʊ/", meaning: "Quả xoài" }
+                { word: "Apple", phonetic: "/ˈæp.əl/", meaning: "Quả táo", imageUrl: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+                { word: "Banana", phonetic: "/bəˈnɑː.nə/", meaning: "Quả chuối", imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80" },
+                { word: "Orange", phonetic: "/ˈɒr.ɪndʒ/", meaning: "Quả cam", imageUrl: "https://images.unsplash.com/photo-1547514701-42782101795e?w=400&q=80" }
             ],
             objects: [
-                { word: "Computer", phonetic: "/kəmˈpjuː.tər/", meaning: "Máy tính" },
-                { word: "Book", phonetic: "/bʊk/", meaning: "Quyển sách" },
-                { word: "Chair", phonetic: "/tʃeər/", meaning: "Cái ghế" },
-                { word: "Table", phonetic: "/ˈteɪ.bəl/", meaning: "Cái bàn" }
+                { word: "Computer", phonetic: "/kəmˈpjuː.tər/", meaning: "Máy tính", imageUrl: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=80" },
+                { word: "Book", phonetic: "/bʊk/", meaning: "Quyển sách", imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80" }
             ],
             animals: [
-                { word: "Elephant", phonetic: "/ˈel.ɪ.fənt/", meaning: "Con voi" },
-                { word: "Dog", phonetic: "/dɒɡ/", meaning: "Con chó" },
-                { word: "Cat", phonetic: "/kæt/", meaning: "Con mèo" },
-                { word: "Tiger", phonetic: "/ˈtaɪ.ɡər/", meaning: "Con hổ" }
+                { word: "Dog", phonetic: "/dɒɡ/", meaning: "Con chó", imageUrl: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
+                { word: "Cat", phonetic: "/kæt/", meaning: "Con mèo", imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" }
             ]
         };
 
@@ -881,6 +1171,7 @@
         let currentQuestion = 0;
         let score = 0;
         let currentCategory = 'all';
+        let currentMode = 'quiz';
 
         renderCategoryGrid();
         renderCategoryDropdown();
@@ -997,7 +1288,7 @@
                                     ${q.phonetic ? `<div class="review-word-phonetic">${q.phonetic}</div>` : ''}
                                 </div>
                                 <div class="review-answers">
-                                    ${isCorrect ? `<span class="text-correct">✓ ${q.correct}</span>` : `<span class="text-wrong">${q.selectedAnswer || 'Bỏ dở'}</span><span class="text-correct">✓ ${q.correct}</span>`}
+                                    ${isCorrect ? `<span class="text-correct">✓ ${q.correct}</span>` : `<span class="text-wrong">${q.selectedAnswer || 'Chưa thuộc'}</span><span class="text-correct">✓ ${q.correct}</span>`}
                                 </div>
                             </div>
                         `;
@@ -1029,34 +1320,30 @@
 
         function toggleHistoryDetails(index) {
             const detailBox = document.getElementById(`history-detail-${index}`);
-            if (detailBox.style.display === 'flex') {
-                detailBox.style.display = 'none';
-            } else {
-                detailBox.style.display = 'flex';
-            }
+            detailBox.style.display = detailBox.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function saveHistoryRecord(catId, score, total, detailsData) {
             let catName = '🎯 Tất Cả Từ';
-            if (catId === 'wrong_words') {
-                catName = '⚠️ Ôn Từ Làm Sai';
-            } else if (catId !== 'all') {
+            if (catId === 'wrong_words') catName = '⚠️ Ôn Từ Làm Sai';
+            else if (catId !== 'all') {
                 const found = categories.find(c => c.id === catId);
                 if (found) catName = `${found.icon} ${found.name}`;
             }
 
+            if (currentMode === 'flashcard') catName += ' (Flashcard)';
+            else if (currentMode === 'image_quiz') catName += ' (Hình ảnh)';
+
             const now = new Date();
             const dateStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} - ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
 
-            const record = {
+            testHistory.unshift({
                 categoryName: catName,
                 score: score,
                 total: total,
                 date: dateStr,
                 details: detailsData
-            };
-
-            testHistory.unshift(record);
+            });
             localStorage.setItem('vocab_history', JSON.stringify(testHistory));
         }
 
@@ -1081,15 +1368,12 @@
             }
 
             const newId = 'cat_' + Date.now();
-            const categoryObj = { id: newId, name: name, icon: icon };
-            
-            categories.push(categoryObj);
+            categories.push({ id: newId, name: name, icon: icon });
             dbVocabulary[newId] = [];
 
             saveToLocalStorage();
             renderCategoryGrid();
             renderCategoryDropdown();
-
             await exportCategoryToJSON(newId);
 
             nameInput.value = '';
@@ -1101,10 +1385,12 @@
             const enInput = document.getElementById('new-en');
             const phoneticInput = document.getElementById('new-phonetic');
             const viInput = document.getElementById('new-vi');
+            const imgInput = document.getElementById('new-img');
 
             const enVal = enInput.value.trim();
             const phoneticVal = phoneticInput.value.trim();
             const viVal = viInput.value.trim();
+            const imgVal = imgInput.value.trim() || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80";
 
             if (!enVal || !viVal) {
                 alert("Vui lòng nhập từ tiếng Anh và nghĩa tiếng Việt!");
@@ -1116,7 +1402,8 @@
             dbVocabulary[catId].push({
                 word: enVal,
                 phonetic: phoneticVal || "",
-                meaning: viVal
+                meaning: viVal,
+                imageUrl: imgVal
             });
 
             saveToLocalStorage();
@@ -1125,6 +1412,7 @@
             enInput.value = '';
             phoneticInput.value = '';
             viInput.value = '';
+            imgInput.value = '';
         }
 
         function importJSONFile(event) {
@@ -1137,11 +1425,9 @@
                     const data = JSON.parse(e.target.result);
                     if (data.category && data.words) {
                         const catIndex = categories.findIndex(c => c.id === data.category.id);
-                        if (catIndex >= 0) {
-                            categories[catIndex] = data.category;
-                        } else {
-                            categories.push(data.category);
-                        }
+                        if (catIndex >= 0) categories[catIndex] = data.category;
+                        else categories.push(data.category);
+                        
                         dbVocabulary[data.category.id] = data.words;
 
                         saveToLocalStorage();
@@ -1163,11 +1449,7 @@
             const categoryObj = categories.find(c => c.id === catId);
             const wordsList = dbVocabulary[catId] || [];
 
-            const jsonData = {
-                category: categoryObj,
-                words: wordsList
-            };
-
+            const jsonData = { category: categoryObj, words: wordsList };
             const filename = `${categoryObj.name.toLowerCase().replace(/\s+/g, '_')}_data.json`;
             const jsonStr = JSON.stringify(jsonData, null, 4);
 
@@ -1175,10 +1457,7 @@
                 try {
                     const handle = await window.showSaveFilePicker({
                         suggestedName: filename,
-                        types: [{
-                            description: 'JSON File',
-                            accept: { 'application/json': ['.json'] },
-                        }],
+                        types: [{ description: 'JSON File', accept: { 'application/json': ['.json'] } }],
                     });
                     const writable = await handle.createWritable();
                     await writable.write(jsonStr);
@@ -1201,24 +1480,19 @@
             a.download = filename;
             document.body.appendChild(a);
             a.click();
-            
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
 
-        function generateQuizOptions(correctMeaning, categoryId) {
+        function generateQuizOptions(correctMeaning) {
             let pool = [];
-
             Object.keys(dbVocabulary).forEach(k => {
                 dbVocabulary[k].forEach(item => {
-                    if (item.meaning !== correctMeaning) {
-                        pool.push(item.meaning);
-                    }
+                    if (item.meaning !== correctMeaning) pool.push(item.meaning);
                 });
             });
 
             pool = [...new Set(pool)].sort(() => Math.random() - 0.5);
-
             const distractors = pool.slice(0, 3);
             const defaultFallback = ["Nghĩa A", "Nghĩa B", "Nghĩa C"];
             while (distractors.length < 3) {
@@ -1228,41 +1502,80 @@
             return [correctMeaning, ...distractors].sort(() => Math.random() - 0.5);
         }
 
+        /* TỰ ĐỘNG LẤY 1 ẢNH KHÁC LÀM ẢNH BẪY */
+        function generateImageOptions(imageUrl) {
+            const correctImg = imageUrl || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80";
+            
+            let pool = [];
+            Object.keys(dbVocabulary).forEach(k => {
+                dbVocabulary[k].forEach(v => {
+                    if (v.imageUrl && v.imageUrl !== correctImg) {
+                        pool.push(v.imageUrl);
+                    }
+                });
+            });
+
+            let wrongImg = "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80";
+            if (pool.length > 0) {
+                wrongImg = pool[Math.floor(Math.random() * pool.length)];
+            }
+
+            const options = [
+                { url: correctImg, isCorrect: true },
+                { url: wrongImg, isCorrect: false }
+            ];
+
+            return options.sort(() => Math.random() - 0.5);
+        }
+
         function startQuiz(category) {
             currentCategory = category;
+            currentMode = document.getElementById('study-mode-select').value;
             let rawWords = [];
 
             if (category === 'wrong_words') {
                 rawWords = [...wrongWordsStore];
             } else if (category === 'all') {
-                Object.keys(dbVocabulary).forEach(key => {
-                    rawWords.push(...dbVocabulary[key]);
-                });
+                Object.keys(dbVocabulary).forEach(key => rawWords.push(...dbVocabulary[key]));
             } else {
                 rawWords = [...(dbVocabulary[category] || [])];
             }
-
             if (rawWords.length === 0) {
                 alert("Không có từ vựng nào để làm bài!");
                 return;
             }
 
-            currentQuizData = rawWords.map(item => ({
+            rawWords.sort(() => Math.random() - 0.5);
+
+            const limitVal = document.getElementById('question-limit-select').value;
+            if (limitVal !== 'all') {
+                rawWords = rawWords.slice(0, parseInt(limitVal, 10));
+            }
+
+            currentQuizData = rawWords.map(item => (
+                {
                 word: item.word,
                 phonetic: item.phonetic || '',
                 correct: item.meaning,
-                options: generateQuizOptions(item.meaning, category),
+                imageUrl: item.imageUrl,
+                options: generateQuizOptions(item.meaning),
+                imageOptions: generateImageOptions(item.imageUrl),
                 userStatus: 'pending'
-            }));
-
-            currentQuizData.sort(() => Math.random() - 0.5);
+                }
+            ));
 
             currentQuestion = 0;
             score = 0;
             document.getElementById('review-section').style.display = 'none';
-            showPage('quiz-page');
-            renderSidebar();
-            loadQuestion();
+
+            if (currentMode === 'quiz' || currentMode === 'image_quiz') {
+                showPage('quiz-page');
+                renderSidebar();
+                loadQuestion();
+            } else {
+                showPage('flashcard-page');
+                loadFlashcard();
+            }
         }
 
         function renderSidebar() {
@@ -1290,7 +1603,6 @@
 
         function loadQuestion() {
             const data = currentQuizData[currentQuestion];
-            
             document.getElementById('word-display').textContent = data.word;
             
             const phoneticElem = document.getElementById('phonetic-display');
@@ -1303,24 +1615,74 @@
 
             const progressPercent = ((currentQuestion + 1) / currentQuizData.length) * 100;
             document.getElementById('progress-bar').style.width = `${progressPercent}%`;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
 
-            data.options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'btn-option';
-                button.textContent = option;
+            const textContainer = document.getElementById('options-container');
+            const imgContainer = document.getElementById('image-options-container');
 
-                if (data.userStatus !== 'pending') {
-                    if (option === data.correct) button.classList.add('correct');
-                    else if (option === data.selectedAnswer && data.userStatus === 'wrong') button.classList.add('wrong');
-                } else {
-                    button.onclick = () => checkAnswer(button, option, data.correct);
-                }
+            if (currentMode === 'quiz') {
+                textContainer.style.display = 'grid';
+                imgContainer.style.display = 'none';
+                textContainer.innerHTML = '';
 
-                optionsContainer.appendChild(button);
-            });
+                data.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'btn-option';
+                    button.textContent = option;
+
+                    if (data.userStatus !== 'pending') {
+                        if (option === data.correct) button.classList.add('correct');
+                        else if (option === data.selectedAnswer && data.userStatus === 'wrong') button.classList.add('wrong');
+                    } else {
+                        button.onclick = () => checkAnswer(button, option, data.correct);
+                    }
+
+                    textContainer.appendChild(button);
+                });
+            } else if (currentMode === 'image_quiz') {
+                textContainer.style.display = 'none';
+                imgContainer.style.display = 'grid';
+                imgContainer.innerHTML = '';
+
+                data.imageOptions.forEach((opt, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'img-option-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = opt.url;
+
+                    // Xử lý báo lỗi hiển thị trực tiếp trên giao diện khi hình ảnh không tải được
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                        const errorBox = document.createElement('div');
+                        errorBox.className = 'img-error-fallback';
+                        errorBox.innerHTML = `
+                            <span style="font-size: 24px;">⚠️</span>
+                            <span>Không thể tải hình ảnh</span>
+                        `;
+                        card.insertBefore(errorBox, this);
+                    };
+
+                    card.appendChild(img);
+
+                    if (data.userStatus !== 'pending') {
+                        if (opt.isCorrect) card.classList.add('correct');
+                        else if (data.selectedIndex === idx && data.userStatus === 'wrong') card.classList.add('wrong');
+                    } else {
+                        card.onclick = () => checkImageAnswer(card, opt, idx);
+                    }
+
+                    imgContainer.appendChild(card);
+                });
+            }
+
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestion === currentQuizData.length - 1) {
+                nextBtn.textContent = 'Kết Thúc Làm Bài ✓';
+                nextBtn.className = 'btn-finish';
+            } else {
+                nextBtn.textContent = 'Câu sau →';
+                nextBtn.className = 'btn-secondary';
+            }
         }
 
         function checkAnswer(selectedBtn, selectedOption, correctOption) {
@@ -1333,9 +1695,11 @@
                 selectedBtn.classList.add('correct');
                 data.userStatus = 'correct';
                 score++;
+                playCorrectSound();
             } else {
                 selectedBtn.classList.add('wrong');
                 data.userStatus = 'wrong';
+                playWrongSound();
                 Array.from(document.getElementById('options-container').children).forEach(btn => {
                     if (btn.textContent === correctOption) btn.classList.add('correct');
                 });
@@ -1349,8 +1713,41 @@
                     renderSidebar();
                     loadQuestion();
                 } else {
-                    const allDone = currentQuizData.every(q => q.userStatus !== 'pending');
-                    if (allDone) showResults();
+                    finishQuiz();
+                }
+            }, 800);
+        }
+
+        function checkImageAnswer(selectedCard, option, idx) {
+            const data = currentQuizData[currentQuestion];
+            if (data.userStatus !== 'pending') return;
+
+            data.selectedIndex = idx;
+            data.selectedAnswer = option.isCorrect ? data.correct : "Ảnh sai";
+
+            if (option.isCorrect) {
+                selectedCard.classList.add('correct');
+                data.userStatus = 'correct';
+                score++;
+                playCorrectSound();
+            } else {
+                selectedCard.classList.add('wrong');
+                data.userStatus = 'wrong';
+                playWrongSound();
+                Array.from(document.getElementById('image-options-container').children).forEach((card, i) => {
+                    if (data.imageOptions[i].isCorrect) card.classList.add('correct');
+                });
+            }
+
+            renderSidebar();
+
+            setTimeout(() => {
+                if (currentQuestion < currentQuizData.length - 1) {
+                    currentQuestion++;
+                    renderSidebar();
+                    loadQuestion();
+                } else {
+                    finishQuiz();
                 }
             }, 800);
         }
@@ -1368,6 +1765,57 @@
                 currentQuestion++;
                 renderSidebar();
                 loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            currentQuizData.forEach(q => {
+                if (q.userStatus === 'pending') {
+                    q.userStatus = 'wrong';
+                    q.selectedAnswer = 'Bỏ dở (Chưa làm)';
+                }
+            });
+
+            renderSidebar();
+            showResults();
+        }
+
+        function loadFlashcard() {
+            document.getElementById('flashcard-element').classList.remove('flipped');
+            const data = currentQuizData[currentQuestion];
+
+            document.getElementById('fc-front-word').textContent = data.word;
+            document.getElementById('fc-front-phonetic').textContent = data.phonetic || '';
+            document.getElementById('fc-back-meaning').textContent = data.correct;
+
+            const progressPercent = ((currentQuestion + 1) / currentQuizData.length) * 100;
+            document.getElementById('fc-progress-bar').style.width = `${progressPercent}%`;
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard-element').classList.toggle('flipped');
+        }
+
+        function markFlashcard(isKnown) {
+            const data = currentQuizData[currentQuestion];
+
+            if (isKnown) {
+                data.userStatus = 'correct';
+                score++;
+                playCorrectSound();
+            } else {
+                data.userStatus = 'wrong';
+                data.selectedAnswer = 'Chưa thuộc';
+                playWrongSound();
+            }
+
+            if (currentQuestion < currentQuizData.length - 1) {
+                currentQuestion++;
+                loadFlashcard();
+            } else {
+                showResults();
             }
         }
 
@@ -1393,7 +1841,8 @@
                         wrongWordsStore.push({
                             word: q.word,
                             phonetic: q.phonetic,
-                            meaning: q.correct
+                            meaning: q.correct,
+                            imageUrl: q.imageUrl
                         });
                     }
                 } else if (q.userStatus === 'correct') {
@@ -1426,23 +1875,13 @@
                 const card = document.createElement('div');
                 card.className = `review-item ${isCorrect ? 'is-correct' : 'is-wrong'}`;
 
-                let answerHTML = '';
-                if (isCorrect) {
-                    answerHTML = `<span class="text-correct">✓ ${item.correct}</span>`;
-                } else {
-                    answerHTML = `
-                        <span class="text-wrong">${item.selectedAnswer || 'Bỏ dở'}</span>
-                        <span class="text-correct">✓ ${item.correct}</span>
-                    `;
-                }
-
                 card.innerHTML = `
                     <div class="review-word-info">
                         <div class="review-word-en">Câu ${index + 1}: ${item.word}</div>
                         ${item.phonetic ? `<div class="review-word-phonetic">${item.phonetic}</div>` : ''}
                     </div>
                     <div class="review-answers">
-                        ${answerHTML}
+                        ${isCorrect ? `<span class="text-correct">✓ ${item.correct}</span>` : `<span class="text-wrong">${item.selectedAnswer || 'Chưa thuộc'}</span><span class="text-correct">✓ ${item.correct}</span>`}
                     </div>
                 `;
                 listContainer.appendChild(card);
