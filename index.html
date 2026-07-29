@@ -256,6 +256,9 @@
             font-size: 16px;
             font-weight: 900;
             color: #3c3c3c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .wrong-word-phonetic {
@@ -268,6 +271,19 @@
             font-size: 14px;
             font-weight: 800;
             color: #ea2b2b;
+        }
+
+        /* BADGE TỪ LOẠI */
+        .word-type-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: #ce82ff;
+            color: white;
+            text-transform: lowercase;
+            font-style: italic;
         }
 
         /* HISTORY SECTION */
@@ -555,6 +571,7 @@
             text-align: center;
             margin-bottom: 25px;
             background: #ffffff;
+            position: relative;
         }
 
         .word-display {
@@ -562,6 +579,19 @@
             font-weight: 900;
             color: #3c3c3c;
             word-break: break-word;
+        }
+
+        .type-display {
+            /* display: inline-block; */
+            font-size: 14px;
+            font-weight: 800;
+            background: #e8a5ff;
+            color: #670099;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+            text-transform: lowercase;
+            font-style: italic;
         }
 
         .phonetic-display {
@@ -819,6 +849,9 @@
             font-size: 18px;
             font-weight: 900;
             color: #3c3c3c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .review-word-phonetic {
@@ -922,9 +955,9 @@
                 <div class="setting-group">
                     <label for="study-mode-select">🎯 Chế độ học:</label>
                     <select id="study-mode-select">
+                        <option value="flashcard">🎴 Thẻ ghi nhớ (Flashcard)</option>
                         <option value="quiz" selected>📝 Trắc nghiệm Text (Quiz)</option>
                         <option value="image_quiz">🖼️ Trắc nghiệm Hình ảnh (2 ảnh)</option>
-                        <option value="flashcard">🎴 Thẻ ghi nhớ (Flashcard)</option>
                     </select>
                 </div>
 
@@ -962,6 +995,14 @@
                     <div class="input-group">
                         <select id="select-category"></select>
                         <input type="text" id="new-en" placeholder="Từ Tiếng Anh (VD: Apple)">
+                        <select id="new-type">
+                            <option value="n.">Danh từ (Noun - n.)</option>
+                            <option value="v.">Động từ (Verb - v.)</option>
+                            <option value="adj.">Tính từ (Adjective - adj.)</option>
+                            <option value="adv.">Trạng từ (Adverb - adv.)</option>
+                            <option value="prep.">Giới từ (Preposition - prep.)</option>
+                            <option value="phr.">Cụm từ (Phrase - phr.)</option>
+                        </select>
                         <input type="text" id="new-phonetic" placeholder="Phiên âm IPA (VD: /ˈæp.əl/)">
                         <input type="text" id="new-vi" placeholder="Nghĩa Tiếng Việt (VD: Quả táo)">
                         <input type="text" id="new-img" placeholder="Link ảnh chuẩn (URL hình ảnh)">
@@ -1005,7 +1046,8 @@
                 <div class="quiz-main">
                     <div class="word-card">
                         <div class="word-display" id="word-display">Apple</div>
-                        <div class="phonetic-display" id="phonetic-display">/ˈæp.əl/</div>
+                        <span class="type-display" id="type-display">n.</span>
+                        <span class="phonetic-display" id="phonetic-display">/ˈæp.əl/</span>
                     </div>
 
                     <div class="options-grid" id="options-container"></div>
@@ -1034,7 +1076,8 @@
                 <div class="flashcard-inner">
                     <div class="flashcard-front">
                         <div class="word-display" id="fc-front-word">Apple</div>
-                        <div class="phonetic-display" id="fc-front-phonetic">/ˈæp.əl/</div>
+                        <span class="type-display" id="fc-front-type">n.</span>
+                        <span class="phonetic-display" id="fc-front-phonetic">/ˈæp.əl/</span>
                         <div class="card-hint-text">💡 Bấm để xem nghĩa</div>
                     </div>
                     <div class="flashcard-back">
@@ -1148,17 +1191,17 @@
 
         const defaultVocabulary = {
             fruits: [
-                { word: "Apple", phonetic: "/ˈæp.əl/", meaning: "Quả táo", imageUrl: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
-                { word: "Banana", phonetic: "/bəˈnɑː.nə/", meaning: "Quả chuối", imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80" },
-                { word: "Orange", phonetic: "/ˈɒr.ɪndʒ/", meaning: "Quả cam", imageUrl: "https://images.unsplash.com/photo-1547514701-42782101795e?w=400&q=80" }
+                { word: "Apple", type: "n.", phonetic: "/ˈæp.əl/", meaning: "Quả táo", imageUrl: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80" },
+                { word: "Banana", type: "n.", phonetic: "/bəˈnɑː.nə/", meaning: "Quả chuối", imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80" },
+                { word: "Orange", type: "n.", phonetic: "/ˈɒr.ɪndʒ/", meaning: "Quả cam", imageUrl: "https://images.unsplash.com/photo-1547514701-42782101795e?w=400&q=80" }
             ],
             objects: [
-                { word: "Computer", phonetic: "/kəmˈpjuː.tər/", meaning: "Máy tính", imageUrl: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=80" },
-                { word: "Book", phonetic: "/bʊk/", meaning: "Quyển sách", imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80" }
+                { word: "Computer", type: "n.", phonetic: "/kəmˈpjuː.tər/", meaning: "Máy tính", imageUrl: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&q=80" },
+                { word: "Book", type: "n.", phonetic: "/bʊk/", meaning: "Quyển sách", imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80" }
             ],
             animals: [
-                { word: "Dog", phonetic: "/dɒɡ/", meaning: "Con chó", imageUrl: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
-                { word: "Cat", phonetic: "/kæt/", meaning: "Con mèo", imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" }
+                { word: "Dog", type: "n.", phonetic: "/dɒɡ/", meaning: "Con chó", imageUrl: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400&q=80" },
+                { word: "Cat", type: "n.", phonetic: "/kæt/", meaning: "Con mèo", imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" }
             ]
         };
 
@@ -1252,7 +1295,10 @@
                 const div = document.createElement('div');
                 div.className = 'wrong-word-card';
                 div.innerHTML = `
-                    <div class="wrong-word-en">${item.word}</div>
+                    <div class="wrong-word-en">
+                        ${item.word} 
+                        ${item.type ? `<span class="word-type-badge">${item.type}</span>` : ''}
+                    </div>
                     ${item.phonetic ? `<div class="wrong-word-phonetic">${item.phonetic}</div>` : ''}
                     <div class="wrong-word-vi">➜ ${item.meaning}</div>
                 `;
@@ -1284,7 +1330,10 @@
                         return `
                             <div class="review-item ${isCorrect ? 'is-correct' : 'is-wrong'}" style="padding:10px; margin-top:5px;">
                                 <div class="review-word-info">
-                                    <div class="review-word-en">Câu ${idx + 1}: ${q.word}</div>
+                                    <div class="review-word-en">
+                                        Câu ${idx + 1}: ${q.word}
+                                        ${q.type ? `<span class="word-type-badge">${q.type}</span>` : ''}
+                                    </div>
                                     ${q.phonetic ? `<div class="review-word-phonetic">${q.phonetic}</div>` : ''}
                                 </div>
                                 <div class="review-answers">
@@ -1383,11 +1432,13 @@
         async function addNewWord() {
             const catId = document.getElementById('select-category').value;
             const enInput = document.getElementById('new-en');
+            const typeInput = document.getElementById('new-type');
             const phoneticInput = document.getElementById('new-phonetic');
             const viInput = document.getElementById('new-vi');
             const imgInput = document.getElementById('new-img');
 
             const enVal = enInput.value.trim();
+            const typeVal = typeInput.value;
             const phoneticVal = phoneticInput.value.trim();
             const viVal = viInput.value.trim();
             const imgVal = imgInput.value.trim() || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80";
@@ -1401,6 +1452,7 @@
 
             dbVocabulary[catId].push({
                 word: enVal,
+                type: typeVal || "n.",
                 phonetic: phoneticVal || "",
                 meaning: viVal,
                 imageUrl: imgVal
@@ -1502,7 +1554,6 @@
             return [correctMeaning, ...distractors].sort(() => Math.random() - 0.5);
         }
 
-        /* TỰ ĐỘNG LẤY 1 ẢNH KHÁC LÀM ẢNH BẪY */
         function generateImageOptions(imageUrl) {
             const correctImg = imageUrl || "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&q=80";
             
@@ -1554,13 +1605,14 @@
 
             currentQuizData = rawWords.map(item => (
                 {
-                word: item.word,
-                phonetic: item.phonetic || '',
-                correct: item.meaning,
-                imageUrl: item.imageUrl,
-                options: generateQuizOptions(item.meaning),
-                imageOptions: generateImageOptions(item.imageUrl),
-                userStatus: 'pending'
+                    word: item.word,
+                    type: item.type || 'n.',
+                    phonetic: item.phonetic || '',
+                    correct: item.meaning,
+                    imageUrl: item.imageUrl,
+                    options: generateQuizOptions(item.meaning),
+                    imageOptions: generateImageOptions(item.imageUrl),
+                    userStatus: 'pending'
                 }
             ));
 
@@ -1605,10 +1657,18 @@
             const data = currentQuizData[currentQuestion];
             document.getElementById('word-display').textContent = data.word;
             
+            const typeElem = document.getElementById('type-display');
+            if (data.type) {
+                typeElem.textContent = data.type;
+                typeElem.style.display = 'inline-block';
+            } else {
+                typeElem.style.display = 'none';
+            }
+
             const phoneticElem = document.getElementById('phonetic-display');
             if (data.phonetic) {
                 phoneticElem.textContent = data.phonetic;
-                phoneticElem.style.display = 'block';
+                // phoneticElem.style.display = 'block';
             } else {
                 phoneticElem.style.display = 'none';
             }
@@ -1650,7 +1710,6 @@
                     const img = document.createElement('img');
                     img.src = opt.url;
 
-                    // Xử lý báo lỗi hiển thị trực tiếp trên giao diện khi hình ảnh không tải được
                     img.onerror = function() {
                         this.style.display = 'none';
                         const errorBox = document.createElement('div');
@@ -1787,6 +1846,7 @@
             const data = currentQuizData[currentQuestion];
 
             document.getElementById('fc-front-word').textContent = data.word;
+            document.getElementById('fc-front-type').textContent = data.type || 'n.';
             document.getElementById('fc-front-phonetic').textContent = data.phonetic || '';
             document.getElementById('fc-back-meaning').textContent = data.correct;
 
@@ -1840,6 +1900,7 @@
                     if (existingIndex === -1) {
                         wrongWordsStore.push({
                             word: q.word,
+                            type: q.type,
                             phonetic: q.phonetic,
                             meaning: q.correct,
                             imageUrl: q.imageUrl
@@ -1877,7 +1938,10 @@
 
                 card.innerHTML = `
                     <div class="review-word-info">
-                        <div class="review-word-en">Câu ${index + 1}: ${item.word}</div>
+                        <div class="review-word-en">
+                            Câu ${index + 1}: ${item.word}
+                            ${item.type ? `<span class="word-type-badge">${item.type}</span>` : ''}
+                        </div>
                         ${item.phonetic ? `<div class="review-word-phonetic">${item.phonetic}</div>` : ''}
                     </div>
                     <div class="review-answers">
