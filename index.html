@@ -120,6 +120,34 @@
             transition: all 0.1s ease;
         }
 
+        /* NÚT PHÁT ÂM ICON */
+        .btn-speak {
+            background: #ddf4ff;
+            border: 2px solid #84d8ff;
+            color: #1cb0f6;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.15s ease;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        .btn-speak:hover {
+            background: #1cb0f6;
+            color: white;
+            transform: scale(1.08);
+        }
+
+        .btn-speak:active {
+            transform: scale(0.95);
+        }
+
         /* SETTINGS BOX */
         .quiz-settings-box {
             background: #f7f7f7;
@@ -258,6 +286,7 @@
             color: #3c3c3c;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 6px;
         }
 
@@ -574,6 +603,13 @@
             position: relative;
         }
 
+        .word-header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .word-display {
             font-size: 40px;
             font-weight: 900;
@@ -582,7 +618,6 @@
         }
 
         .type-display {
-            /* display: inline-block; */
             font-size: 14px;
             font-weight: 800;
             background: #e8a5ff;
@@ -592,6 +627,7 @@
             margin-top: 8px;
             text-transform: lowercase;
             font-style: italic;
+            display: inline-block;
         }
 
         .phonetic-display {
@@ -1045,9 +1081,14 @@
 
                 <div class="quiz-main">
                     <div class="word-card">
-                        <div class="word-display" id="word-display">Apple</div>
-                        <span class="type-display" id="type-display">n.</span>
-                        <span class="phonetic-display" id="phonetic-display">/ˈæp.əl/</span>
+                        <div class="word-header-container">
+                            <div class="word-display" id="word-display">Apple</div>
+                            <button class="btn-speak" title="Nghe phát âm" onclick="speakCurrentWord()">🔊</button>
+                        </div>
+                        <div>
+                            <span class="type-display" id="type-display">n.</span>
+                        </div>
+                        <div class="phonetic-display" id="phonetic-display">/ˈæp.əl/</div>
                     </div>
 
                     <div class="options-grid" id="options-container"></div>
@@ -1075,9 +1116,14 @@
             <div class="flashcard-wrapper" id="flashcard-element" onclick="flipCard()">
                 <div class="flashcard-inner">
                     <div class="flashcard-front">
-                        <div class="word-display" id="fc-front-word">Apple</div>
-                        <span class="type-display" id="fc-front-type">n.</span>
-                        <span class="phonetic-display" id="fc-front-phonetic">/ˈæp.əl/</span>
+                        <div class="word-header-container">
+                            <div class="word-display" id="fc-front-word">Apple</div>
+                            <button class="btn-speak" title="Nghe phát âm" onclick="event.stopPropagation(); speakCurrentWord();">🔊</button>
+                        </div>
+                        <div>
+                            <span class="type-display" id="fc-front-type">n.</span>
+                        </div>
+                        <div class="phonetic-display" id="fc-front-phonetic">/ˈæp.əl/</div>
                         <div class="card-hint-text">💡 Bấm để xem nghĩa</div>
                     </div>
                     <div class="flashcard-back">
@@ -1119,6 +1165,26 @@
     </div>
 
     <script>
+        /* TÍNH NĂNG PHÁT ÂM (WEB SPEECH API) */
+        function speakWord(text) {
+            if (!('speechSynthesis' in window)) {
+                alert("Trình duyệt của bạn không hỗ trợ tính năng phát âm Web Speech API.");
+                return;
+            }
+            window.speechSynthesis.cancel(); // Hủy giọng đọc đang chạy trước đó (nếu có)
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9; // Tốc độ đọc vừa phải
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakCurrentWord() {
+            if (currentQuizData && currentQuizData[currentQuestion]) {
+                speakWord(currentQuizData[currentQuestion].word);
+            }
+        }
+
         let audioCtx = null;
 
         function getAudioContext() {
@@ -1296,8 +1362,11 @@
                 div.className = 'wrong-word-card';
                 div.innerHTML = `
                     <div class="wrong-word-en">
-                        ${item.word} 
-                        ${item.type ? `<span class="word-type-badge">${item.type}</span>` : ''}
+                        <span>
+                            ${item.word} 
+                            ${item.type ? `<span class="word-type-badge">${item.type}</span>` : ''}
+                        </span>
+                        <button class="btn-speak" style="width:28px; height:28px; font-size:13px;" onclick="speakWord('${item.word}')">🔊</button>
                     </div>
                     ${item.phonetic ? `<div class="wrong-word-phonetic">${item.phonetic}</div>` : ''}
                     <div class="wrong-word-vi">➜ ${item.meaning}</div>
@@ -1657,6 +1726,9 @@
             const data = currentQuizData[currentQuestion];
             document.getElementById('word-display').textContent = data.word;
             
+            // Tự động phát âm từ khi load câu hỏi mới
+            speakWord(data.word);
+
             const typeElem = document.getElementById('type-display');
             if (data.type) {
                 typeElem.textContent = data.type;
@@ -1668,7 +1740,7 @@
             const phoneticElem = document.getElementById('phonetic-display');
             if (data.phonetic) {
                 phoneticElem.textContent = data.phonetic;
-                // phoneticElem.style.display = 'block';
+                phoneticElem.style.display = 'block';
             } else {
                 phoneticElem.style.display = 'none';
             }
@@ -1850,6 +1922,9 @@
             document.getElementById('fc-front-phonetic').textContent = data.phonetic || '';
             document.getElementById('fc-back-meaning').textContent = data.correct;
 
+            // Tự động phát âm khi xem Flashcard
+            speakWord(data.word);
+
             const progressPercent = ((currentQuestion + 1) / currentQuizData.length) * 100;
             document.getElementById('fc-progress-bar').style.width = `${progressPercent}%`;
         }
@@ -1887,7 +1962,7 @@
             
             if (percentage === 100) feedback.textContent = "🎉 Quá đỉnh! Bạn đạt điểm tuyệt đối!";
             else if (percentage >= 60) feedback.textContent = "👍 Rất tốt! Hãy luyện tập thêm để hoàn hảo hơn.";
-            else feedback.textContent = "💪 Cố gắng lên! Hãy ôn lại bài học này nhé.";
+            else feedback.textContent = "💪 Cố gắng lên! Hãy ôn lại bài học nhé.";
 
             updateWrongWordsAndHistory();
         }
@@ -1941,6 +2016,7 @@
                         <div class="review-word-en">
                             Câu ${index + 1}: ${item.word}
                             ${item.type ? `<span class="word-type-badge">${item.type}</span>` : ''}
+                            <button class="btn-speak" style="width:28px; height:28px; font-size:13px;" onclick="speakWord('${item.word}')">🔊</button>
                         </div>
                         ${item.phonetic ? `<div class="review-word-phonetic">${item.phonetic}</div>` : ''}
                     </div>
